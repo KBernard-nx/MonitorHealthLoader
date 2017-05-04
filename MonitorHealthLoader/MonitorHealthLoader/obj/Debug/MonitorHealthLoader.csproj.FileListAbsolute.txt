@@ -1,0 +1,15 @@
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\MonitorHealthLoader.exe.config
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.csprojResolveAssemblyReference.cache
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.Form1.resources
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.Properties.Resources.resources
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.csproj.GenerateResource.Cache
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\ADB\adb.exe
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\ADB\AdbWinApi.dll
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\ADB\AdbWinUsbApi.dll
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\MonitorHealthLoader.exe
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\MonitorHealthLoader.pdb
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Mono.Posix.dll
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.dll
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.pdb
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.exe
+c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.pdb
