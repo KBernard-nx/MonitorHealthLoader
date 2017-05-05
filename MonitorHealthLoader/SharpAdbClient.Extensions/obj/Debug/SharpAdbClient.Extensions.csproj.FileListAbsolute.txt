@@ -5,3 +5,10 @@ C:\Users\Admin\Source\Repos\madb\SharpAdbClient.Extensions\bin\Debug\SharpAdbCli
 C:\Users\Admin\Source\Repos\madb\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.pdb
 C:\Users\Admin\Source\Repos\madb\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.dll
 C:\Users\Admin\Source\Repos\madb\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.Extensions.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.Extensions.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.pdb

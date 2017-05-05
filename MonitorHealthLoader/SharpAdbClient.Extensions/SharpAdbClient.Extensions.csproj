@@ -88,6 +88,12 @@
     <Folder Include="Exceptions\" />
     <Folder Include="IO\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpAdbClient\SharpAdbClient.csproj">
+      <Project>{231c576c-150a-45d4-b12a-901811756e9a}</Project>
+      <Name>SharpAdbClient</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
