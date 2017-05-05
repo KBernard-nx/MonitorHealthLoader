@@ -9,3 +9,9 @@ C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClie
 C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.AssemblyInfo.cs
 C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.dll
 C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.pdb
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\net451\SharpAdbClient.dll
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\net451\SharpAdbClient.pdb
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.AssemblyInfo.cs
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.dll
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.pdb
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.csprojResolveAssemblyReference.cache

@@ -11,7 +11,10 @@ using SharpAdbClient;
 using System.IO;
 using System.Threading;
 using System.Net;
+using System.Management;
 using System.Diagnostics;
+using TestStack.White.UIItems.WindowItems;
+using TestStack.White.Factory;
 
 namespace MonitorHealthLoader
 {
@@ -21,6 +24,9 @@ namespace MonitorHealthLoader
         public SharpAdbClient.AdbServer sadb;
         AdbSocket adbSocket;
         AdbClient adbClient;
+        DeviceMonitor monitor;
+
+        public bool connected = false;
 
         public Form1()
         {
@@ -34,7 +40,7 @@ namespace MonitorHealthLoader
 
             //Start ADB Server 
             sadb = new AdbServer();
-            sadb.StartServer(AppDomain.CurrentDomain.BaseDirectory + "ADB/adb.exe", restartServerIfNewer: false);
+            sadb.StartServer(AppDomain.CurrentDomain.BaseDirectory + "ADB/adb.exe", restartServerIfNewer: true);
 
             //Create ADB Client
             adbClient = new AdbClient();
@@ -59,9 +65,13 @@ namespace MonitorHealthLoader
             foreach (var device in devices)
             {
                 
-                if (device.Name.ToString() == "j3xlte")
+                if (device.Name.ToString() == "j3xlteatt")
                 {
-                    J320A j = new J320A((DeviceData)devices[0], adbSocket, this);
+                    monitor.Dispose();
+                    J320A j = new J320A((DeviceData)devices[0], adbSocket, adbClient, this);
+                    Thread newThread = new Thread(new ThreadStart(j.startProcess));
+                    newThread.Start();
+                    
                 }
                 else if (device.Name.ToString() == "j5lte")
                 {
@@ -82,7 +92,7 @@ namespace MonitorHealthLoader
         void StartMonitor()
         {
              Log("Starting Monitor");
-             var monitor = new DeviceMonitor(adbSocket);
+             monitor = new DeviceMonitor(adbSocket);
              monitor.DeviceConnected += this.OnDeviceConnected;
              monitor.DeviceDisconnected += this.OnDeviceDisconnected;
              monitor.DeviceChanged += this.OnDeviceChanged;
@@ -96,6 +106,9 @@ namespace MonitorHealthLoader
 
         void OnDeviceConnected(object sender, DeviceDataEventArgs e)
         {
+            connected = true;
+            //This Helps the monitor gather the device info.
+            Thread.Sleep(250);
 
             DeviceData selectedDevice = null;
             var devices = AdbClient.Instance.GetDevices();
@@ -121,18 +134,11 @@ namespace MonitorHealthLoader
         
         void OnDeviceDisconnected(object sender, DeviceDataEventArgs e)
         {
-            DeviceData selectedDevice = null;
-            var devices = AdbClient.Instance.GetDevices();
 
-            foreach (var device in devices)
-            {
-                if (e.Device.Serial == device.Serial)
-                    selectedDevice = device;
-            }
-            
+            connected = false;
             Log("");
             Log("----------------------------------------------------");
-            Log( selectedDevice.Serial + " has Disconnected from this PC");
+            Log( e.Device.Serial + " has Disconnected from this PC");
             Log("----------------------------------------------------");
             Log("");
         }
@@ -204,6 +210,19 @@ namespace MonitorHealthLoader
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             adbClient.KillAdb();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+
+
         }
     }
 }

@@ -12,3 +12,9 @@ C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClie
 C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\netstandard1.3\SharpAdbClient.AssemblyInfo.cs
 C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\netstandard1.3\SharpAdbClient.dll
 C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\netstandard1.3\SharpAdbClient.pdb
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\netstandard1.3\SharpAdbClient.deps.json
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\netstandard1.3\SharpAdbClient.dll
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\netstandard1.3\SharpAdbClient.pdb
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\netstandard1.3\SharpAdbClient.AssemblyInfo.cs
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\netstandard1.3\SharpAdbClient.dll
+C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\netstandard1.3\SharpAdbClient.pdb
