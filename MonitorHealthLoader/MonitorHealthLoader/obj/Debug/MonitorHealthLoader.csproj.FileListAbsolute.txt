@@ -13,3 +13,20 @@ c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\Monitor
 c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.pdb
 c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.exe
 c:\users\kevin\documents\visual studio 2013\Projects\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\ADB\adb.exe
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\ADB\AdbWinApi.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\ADB\AdbWinUsbApi.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\MonitorHealthLoader.exe.config
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\MonitorHealthLoader.exe
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\MonitorHealthLoader.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Mono.Posix.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.Extensions.dll
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.Extensions.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\SharpAdbClient.pdb
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.Form1.resources
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.Properties.Resources.resources
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.csproj.GenerateResource.Cache
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.exe
+C:\Users\Admin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.pdb

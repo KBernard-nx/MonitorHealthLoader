@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MonitorHealthLoader",
+    "\\MonitorHealthLoader\\MonitorHealthLoader"
   ],
   "PreviewInSolutionExplorer": false
 }
