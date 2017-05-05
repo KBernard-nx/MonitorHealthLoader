@@ -52,15 +52,30 @@ namespace MonitorHealthLoader
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            
+            //Start needs to work with all connected devices
+
             var devices = AdbClient.Instance.GetDevices();
 
             foreach (var device in devices)
             {
-                Log(device.Name.ToString());
+                
+                if (device.Name.ToString() == "j3xlte")
+                {
+                    J320A j = new J320A((DeviceData)devices[0], adbSocket, this);
+                }
+                else if (device.Name.ToString() == "j5lte")
+                {
+                    J500M j = new J500M((DeviceData)devices[0], adbSocket, this);
+                }
+                else
+                {
+                    Log(device.Name.ToString() + " is not Configured for this process yet!");
+                }
+                
+                
             }
             
-            J320A j = new J320A((DeviceData)devices[0], adbSocket, this);
+            
 
         }
 
@@ -81,52 +96,96 @@ namespace MonitorHealthLoader
 
         void OnDeviceConnected(object sender, DeviceDataEventArgs e)
         {
+
+            DeviceData selectedDevice = null;
             var devices = AdbClient.Instance.GetDevices();
+            foreach (var device in devices)
+            {
+
+                if (e.Device.Serial == device.Serial)
+                    selectedDevice = device;       
+            }
+
+            AddDeviceList(selectedDevice);
+
             Log("==========================================");
-            Log(devices[0].Name.ToString() + " has connected to this PC");
-            Log("Name: " + devices[0].Name.ToString());
-            Log("Model: " + devices[0].Model.ToString());
-            Log("Product: " + devices[0].Product.ToString());
-            Log("Serial: " + devices[0].Serial.ToString());
-            Log("State: " + devices[0].State.ToString());
+            Log(selectedDevice.Name.ToString() + " has connected to this PC");
+            Log("Name: " + selectedDevice.Name.ToString());
+            Log("Model: " + selectedDevice.Model.ToString());
+            Log("Product: " + selectedDevice.Product.ToString());
+            Log("Serial: " + selectedDevice.Serial.ToString());
+            Log("State: " + selectedDevice.State.ToString());
             Log("==========================================");
 
         }
-
+        
         void OnDeviceDisconnected(object sender, DeviceDataEventArgs e)
         {
-            Log("");
-            Log("----------------------------------------------------");
-            Log("Device has Disconnected from this PC");
-            Log("----------------------------------------------------");
-            Log("");
-        }
+            DeviceData selectedDevice = null;
+            var devices = AdbClient.Instance.GetDevices();
 
-        void Push(String filename)
-        {
-            Log("Pushing File");
-            DateTime dt = new DateTime();
-           
-            var device = AdbClient.Instance.GetDevices().First();
-
-            using (SyncService service = new SyncService(adbSocket, device))
-            using (Stream stream = File.OpenRead(@"G:\j320\Process_Monitor_Health\files\Kingroot.apk"))
+            foreach (var device in devices)
             {
-                service.Push(stream, "/data/local/tmp/Kingroot.apk" + filename, 0444, dt, null, CancellationToken.None);
+                if (e.Device.Serial == device.Serial)
+                    selectedDevice = device;
             }
+            
+            Log("");
+            Log("----------------------------------------------------");
+            Log( selectedDevice.Serial + " has Disconnected from this PC");
+            Log("----------------------------------------------------");
+            Log("");
         }
 
-        void EchoTest()
+        public void AddDeviceList(DeviceData device)
         {
-            var device = AdbClient.Instance.GetDevices().First();
-            var receiver = new ConsoleOutputReceiver();
 
-            AdbClient.Instance.ExecuteRemoteCommand("ls /data/local/tmp", device, receiver);
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<DeviceData>(AddDeviceList), new object[] { device });
+                return;
+            }
 
-            Console.WriteLine("The device responded:");
-            Console.WriteLine(receiver.ToString());
-            Log("The device responded:");
-            Log(receiver.ToString());
+            ImageList imageList = new ImageList();
+
+            Bitmap progressBarBitmap = new Bitmap(
+                imageList.ImageSize.Width,
+                imageList.ImageSize.Height);
+            imageList.Images.Add(progressBarBitmap);
+            ProgressBar progressBar = new ProgressBar();
+            progressBar.MinimumSize = imageList.ImageSize;
+            progressBar.MaximumSize = imageList.ImageSize;
+            progressBar.Size = imageList.ImageSize;
+
+            // probably create also some BackgroundWorker here with information about
+            // this particular progressBar
+
+            int count = this.listDevices.Items.Count + 1;
+
+            ListViewItem lvi = new ListViewItem(
+                new[] { count.ToString(),
+                        device.Name.ToString(),
+                        device.Serial.ToString(),
+                        device.State.ToString(),
+                        device.Product.ToString()},
+                this.listDevices.Items.Count);
+
+            lvi.UseItemStyleForSubItems = true;
+            this.listDevices.Items.Add(lvi);
+
+
+        }
+
+        public void Progress()
+        {
+      //      int previousProgress = progressBar.Value;
+      //      progressBar.Value = ...
+      //
+      //      if (progressBar.Value != previousProgress)
+      //      {
+      //          progressBar.DrawToBitmap(progressBarBitmap, bounds);
+      //          progressBarImageList.Images[index] = progressBarBitmap;
+      //      }
         }
 
 
