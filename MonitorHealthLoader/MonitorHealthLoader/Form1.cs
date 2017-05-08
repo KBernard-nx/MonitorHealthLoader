@@ -53,8 +53,9 @@ namespace MonitorHealthLoader
 
             //Start Monitor
             StartMonitor();
-            
+
         }
+
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -67,7 +68,6 @@ namespace MonitorHealthLoader
                 
                 if (device.Name.ToString() == "j3xlteatt")
                 {
-                    monitor.Dispose();
                     J320A j = new J320A((DeviceData)devices[0], adbSocket, adbClient, this);
                     Thread newThread = new Thread(new ThreadStart(j.startProcess));
                     newThread.Start();
@@ -87,6 +87,14 @@ namespace MonitorHealthLoader
             
             
 
+        }
+
+        void StopMonitor()
+        {
+            if (monitor.IsRunning)
+            {
+                monitor.Dispose();
+            }
         }
 
         void StartMonitor()
@@ -209,6 +217,7 @@ namespace MonitorHealthLoader
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            StopMonitor();
             adbClient.KillAdb();
         }
 

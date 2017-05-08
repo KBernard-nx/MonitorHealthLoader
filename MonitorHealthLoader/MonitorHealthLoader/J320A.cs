@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TestStack.White.UIItems.WindowItems;
 
+
 namespace MonitorHealthLoader
 {
     class J320A
@@ -44,20 +45,67 @@ namespace MonitorHealthLoader
                 return;
 
             //init Odin Bootloader flash
-            flashboot();
+            // flashboot();
 
             //WaitForDevice
             waitForDevice();
 
-            //Push Required Files
-            pushFile(defpath + "AppFiles",  "libnetguard.so");
-            pushFile(defpath + "AppFiles",  "libopentok.so");
-            pushFile(defpath + "AppFiles",  "MDMControlPanel.apk");
-            pushFile(defpath + "AppFiles",  "monitorhealth1.3.6.apk");
-            pushFile(defpath + "AppFiles",  "StatusBar.apk");
-            //pushFile(defpath + "RootFiles",  "KingRoot.apk");
-            InstallApplication();
+            //keep screen on 
+            sendCommand("svc power stayon usb");
 
+
+            //Push Required Files
+            pushFile(defpath + "AppFiles", "libnetguard.so");
+            pushFile(defpath + "AppFiles", "libopentok.so");
+            pushFile(defpath + "AppFiles", "MDMControlPanel.apk");
+            pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk");
+            pushFile(defpath + "AppFiles", "StatusBar.apk");
+            pushFile(defpath + "RootFiles", "KingRoot.apk");
+
+            Thread.Sleep(3000);
+
+            //Send Home Press
+            sendCommand("input keyevent 3");
+
+
+            sendCommand("pm install -rg /data/local/tmp/KingRoot.apk");
+
+            //Send Home Press
+            sendCommand("input keyevent 3");
+
+            sendCommand("am start -n com.kingroot.kinguser/.activitys.SliderMainActivity");
+
+            waitForKingroot();
+
+            sendCommand("input tap 372 1186");
+            sendCommand("input tap 372 1186");
+            sendCommand("input tap 372 1125");
+
+            waitForReadyToRoot();
+            Thread.Sleep(1000);
+
+            //Click Try Root
+            sendCommand("input tap 372 1020");
+
+            waitForFinishedRoot();
+
+            //Send Home Press
+            sendCommand("input keyevent 3");
+            sendCommand("su cat /system/build.prop");
+
+            Console.WriteLine("ACCEPT PERMISSIONS");
+
+            sendCommand("su cat /data/local/tmp/priv-app/libnetguard.so > /system/lib/libnetguard.so");
+            sendCommand("su -c 'cat /data/local/tmp/priv-app/libopentok.so > /system/lib/libopentok.so'");
+
+            sendCommand("su -c 'chmod 0755 /system/lib/libnetguard.so'");
+            sendCommand("su -c 'chmod 0755 /system/lib/libopentok.so'");
+
+            sendCommand("su -c 'cat /data/local/tmp/MDMControlPanel.apk > /system/priv-app/MDMControlPanel.apk'");
+            sendCommand("su - c 'cat /data/local/tmp/monitorhealth1.3.6.apk > /system/priv-app/monitorhealth1.3.6.apk'");
+            sendCommand("su - c 'cat /data/local/tmp/priv-app/StatusBar.apk > /system/priv-app/StatusBar.apk'");
+
+            sendCommand("su -c 'chmod -R 755 /system/priv-app'");
 
         }
 
@@ -79,13 +127,46 @@ namespace MonitorHealthLoader
                 return true;
         }
 
+        private void waitForKingroot()
+        {
+            Console.WriteLine("Waiting For KingRoot to Open");
+            while (!sendCommandWithResponse("dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'").Contains("com.kingroot.kinguser/com.kingroot.kinguser.activitys.SliderMainActivity")) { }
+            Thread.Sleep(500);
+        }
 
-        //===========================================================
-        //Odin Flashing Boot Img For Root
-        //===========================================================
+        private void waitForFinishedRoot()
+        {
+            Console.WriteLine("Waiting For KingRoot to Open");
+            while (!sendCommandWithResponse("dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'").Contains("com.kingroot.kinguser/com.kingroot.kinguser.activitys.MainActivity")) { }
+            Thread.Sleep(500);
+        }
 
-        //Automate Odin
-        private void flashboot()
+        //resource-id="com.kingroot.kinguser:id/title"
+
+
+
+        private void waitForReadyToRoot()
+        {
+            Console.WriteLine("Waiting For KingRoot to Open");
+            //while (!sendCommandWithResponse("uiautomator dump | cat /sdcard/window_dump.xml | grep 'Try Root'").Contains("Try Root")) { }
+
+            sendCommand("uiautomator dump");
+            Thread.Sleep(500);
+            while (sendCommandWithResponse("cat /sdcard/window_dump.xml").Contains("root_check_progress_bar")) { sendCommand("uiautomator dump"); }
+            //sendCommand("input tap 372 1125");
+            Thread.Sleep(500);
+
+        }
+
+
+             
+
+//===========================================================
+//Odin Flashing Boot Img For Root
+//===========================================================
+
+//Automate Odin
+private void flashboot()
         {
             //Reboot device into Download mode
             var receiver = new ConsoleOutputReceiver();
@@ -207,6 +288,7 @@ namespace MonitorHealthLoader
         //Sends ADB  commands to device
         private void sendCommand(string command)
         {
+            Console.WriteLine("Sending Command: " + command);
             //var device = AdbClient.Instance.GetDevices().First();
             var receiver = new ConsoleOutputReceiver();
 
@@ -215,6 +297,22 @@ namespace MonitorHealthLoader
             Console.WriteLine("The device responded:");
             Console.WriteLine(receiver.ToString());
             //mform.Log(receiver.ToString());
+            Thread.Sleep(550);
+        }
+
+        private string sendCommandWithResponse(string command)
+        {
+            Console.WriteLine("Sending Command: " + command);
+            //var device = AdbClient.Instance.GetDevices().First();
+            var receiver = new ConsoleOutputReceiver();
+
+            AdbClient.Instance.ExecuteRemoteCommand(command, mDevice, receiver);
+
+            Console.WriteLine("The device responded:");
+            Console.WriteLine(receiver.ToString());
+            //mform.Log(receiver.ToString());
+            Thread.Sleep(350);
+            return receiver.ToString();
         }
 
         //formats strings, Removes newline and enter chars
@@ -236,25 +334,10 @@ namespace MonitorHealthLoader
         {
             bool clearedForTakeOff = false;
 
-            Console.WriteLine("Waiting for device!");
-            List<DeviceData> ds = AdbClient.Instance.GetDevices();
+            Console.WriteLine("Waiting for device...");
 
-            while (!clearedForTakeOff)
-            {
-                
-                foreach (DeviceData d in ds)
-                 {
-                     if(d.State == DeviceState.Online)
-                    {
-                        clearedForTakeOff = true;
-                        Console.WriteLine("Device Connected!");
-                    }
-                 }
-           
-                ds = AdbClient.Instance.GetDevices();
-            }
+            while (!mform.connected){}
             Console.WriteLine("Device FOUND!");
-
         }
 
     }

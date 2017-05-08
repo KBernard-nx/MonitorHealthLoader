@@ -15,3 +15,9 @@ C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClie
 C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.dll
 C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.pdb
 C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\net451\SharpAdbClient.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\bin\Debug\net451\SharpAdbClient.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.AssemblyInfo.cs
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Debug\net451\SharpAdbClient.pdb

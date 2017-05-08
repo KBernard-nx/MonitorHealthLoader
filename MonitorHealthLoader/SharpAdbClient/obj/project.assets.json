@@ -13,10 +13,10 @@
   "project": {
     "version": "2.1.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kevin\\Source\\Repos\\MonitorHealthLoader\\MonitorHealthLoader\\SharpAdbClient\\SharpAdbClient.csproj",
+      "projectUniqueName": "C:\\Users\\Kevin\\Documents\\GitHub\\MonitorHealthLoader\\MonitorHealthLoader\\SharpAdbClient\\SharpAdbClient.csproj",
       "projectName": "SharpAdbClient",
-      "projectPath": "C:\\Users\\Kevin\\Source\\Repos\\MonitorHealthLoader\\MonitorHealthLoader\\SharpAdbClient\\SharpAdbClient.csproj",
-      "outputPath": "C:\\Users\\Kevin\\Source\\Repos\\MonitorHealthLoader\\MonitorHealthLoader\\SharpAdbClient\\obj\\",
+      "projectPath": "C:\\Users\\Kevin\\Documents\\GitHub\\MonitorHealthLoader\\MonitorHealthLoader\\SharpAdbClient\\SharpAdbClient.csproj",
+      "outputPath": "C:\\Users\\Kevin\\Documents\\GitHub\\MonitorHealthLoader\\MonitorHealthLoader\\SharpAdbClient\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "originalTargetFrameworks": [

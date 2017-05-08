@@ -19,3 +19,10 @@ C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClie
 C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.dll
 C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.pdb
 C:\Users\Kevin\Source\Repos\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.Extensions.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.Extensions.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Debug\SharpAdbClient.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Debug\SharpAdbClient.Extensions.pdb
