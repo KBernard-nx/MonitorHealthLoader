@@ -43,16 +43,18 @@ namespace MonitorHealthLoader
 
             if (!checkDeviceInfo())
                 return;
-
+         
             //init Odin Bootloader flash
-            // flashboot();
-
+           // flashboot();
+         
             //WaitForDevice
             waitForDevice();
-
+         
             //keep screen on 
             sendCommand("svc power stayon usb");
 
+            //Swipe on Lock Screen
+            sendCommand("input swipe 373 1040 373 500");
 
             //Push Required Files
             pushFile(defpath + "AppFiles", "libnetguard.so");
@@ -61,51 +63,120 @@ namespace MonitorHealthLoader
             pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk");
             pushFile(defpath + "AppFiles", "StatusBar.apk");
             pushFile(defpath + "RootFiles", "KingRoot.apk");
-
+         
             Thread.Sleep(3000);
-
+         
             //Send Home Press
             sendCommand("input keyevent 3");
 
-
-            sendCommand("pm install -rg /data/local/tmp/KingRoot.apk");
-
+            installKingRootApp();
+         
             //Send Home Press
             sendCommand("input keyevent 3");
-
+         
+            //Open KingRoot Activity
             sendCommand("am start -n com.kingroot.kinguser/.activitys.SliderMainActivity");
-
+         
             waitForKingroot();
-
+         
+            //Continue Through Kingroot App
             sendCommand("input tap 372 1186");
             sendCommand("input tap 372 1186");
             sendCommand("input tap 372 1125");
-
+         
             waitForReadyToRoot();
             Thread.Sleep(1000);
-
+         
             //Click Try Root
             sendCommand("input tap 372 1020");
-
+         
             waitForFinishedRoot();
 
             //Send Home Press
             sendCommand("input keyevent 3");
-            sendCommand("su cat /system/build.prop");
 
-            Console.WriteLine("ACCEPT PERMISSIONS");
+            grantSUPermissions();
 
-            sendCommand("su cat /data/local/tmp/priv-app/libnetguard.so > /system/lib/libnetguard.so");
-            sendCommand("su -c 'cat /data/local/tmp/priv-app/libopentok.so > /system/lib/libopentok.so'");
+            //Mount System
+            sendCommand("su -c 'mount -o remount,rw /system'");
+            
+            //Move Lib Files to system/lib required for apps to run 
+            sendCommand("su -c 'cat /data/local/tmp/libnetguard.so > /system/lib/libnetguard.so'");
+            sendCommand("su -c 'cat /data/local/tmp/libopentok.so > /system/lib/libopentok.so'");
 
+            //Change file Permissions for new libs. 
             sendCommand("su -c 'chmod 0755 /system/lib/libnetguard.so'");
             sendCommand("su -c 'chmod 0755 /system/lib/libopentok.so'");
 
+            //Move new apk files to system/priv-app
             sendCommand("su -c 'cat /data/local/tmp/MDMControlPanel.apk > /system/priv-app/MDMControlPanel.apk'");
-            sendCommand("su - c 'cat /data/local/tmp/monitorhealth1.3.6.apk > /system/priv-app/monitorhealth1.3.6.apk'");
-            sendCommand("su - c 'cat /data/local/tmp/priv-app/StatusBar.apk > /system/priv-app/StatusBar.apk'");
+            sendCommand("su -c 'cat /data/local/tmp/monitorhealth1.3.6.apk > /system/priv-app/monitorhealth1.3.6.apk'");
+            sendCommand("su -c 'cat /data/local/tmp/StatusBar.apk > /system/priv-app/StatusBar.apk'");
 
+            //Change file Permissions on all file in priv-app recursively
             sendCommand("su -c 'chmod -R 755 /system/priv-app'");
+
+            //remove unused Apps
+            sendCommand("su -c 'rm -Rf /system/app/AllshareFileShare'");
+            sendCommand("su -c 'rm -Rf /system/app/AllshareFileShareClient'");
+            sendCommand("su -c 'rm -Rf /system/app/AllshareFileShareServer'");
+            sendCommand("su -c 'rm -Rf /system/app/AmazonKindle_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/Directv_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/FamilyMap_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/Hangouts'");
+            sendCommand("su -c 'rm -Rf /system/app/MyATT_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/Plenti_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/SBrowser_4_LATEST'");
+            sendCommand("su -c 'rm -Rf /system/app/SPlanner_M'");
+            sendCommand("su -c 'rm -Rf /system/app/SecMemo3'");
+            sendCommand("su -c 'rm -Rf /system/app/SmartLimits_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/SmartWifi_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/Uber_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/Weather2016'");
+            sendCommand("su -c 'rm -Rf /system/app/WeatherWidget2016'");
+            sendCommand("su -c 'rm -Rf /system/app/Wispr_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/YPMobile_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/app/YouTube'");
+
+            //remove Priv-Apps
+            sendCommand("su -c 'rm -Rf /system/priv-app/AmazonInstaller_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/AmazonShopping_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/DigitalLocker_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/DriveMode_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/ECID - release_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/FamilyUtility_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/GalaxyApps_3xh'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/HancomOfficeViewer'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/Lookout_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/MILK_US'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/MobileLocate_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/RemoteSupport_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/Telenav_vpl_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/ThemeCenter'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/ThemeStore_3xh'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/Velvet'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/VoiceNote_4.0'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/WildTangent_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/ready2Go_64_ATT'");
+            sendCommand("su -c 'rm -Rf /system/priv-app/SetupWizard'");
+
+            //Disable Samsung Launchers
+            sendCommand("pm disable com.sec.android.app.easylauncher");
+            sendCommand("pm disable com.sec.android.app.launcher");
+            sendCommand("pm disable com.sec.android.app.emergencylauncher");
+
+            //Open KingRoot Settings Activity
+            sendCommand("am start -n com.kingroot.kinguser/.activitys.KUCommonSettingActivity");
+            Thread.Sleep(1000);
+            //Touch option to unnstall.
+            sendCommand("input tap 352 1257");
+            sendCommand("input tap 372 1125");
+            sendCommand("input tap 478 850");
+            sendCommand("input tap 156 791");
+            sendCommand("input tap 487 895");
+
+
+
 
         }
 
@@ -141,9 +212,42 @@ namespace MonitorHealthLoader
             Thread.Sleep(500);
         }
 
-        //resource-id="com.kingroot.kinguser:id/title"
+        private void grantSUPermissions()
+        {
+            Console.WriteLine("ACCEPT PERMISSIONS");
+            var cancellationTokenSource = new CancellationTokenSource();
+            var receiver = new ConsoleOutputReceiver();
 
+            //Send SU command to bring up SU allow prompt
+            var task = AdbClient.Instance.ExecuteRemoteCommandAsync("su -c 'cat /system/build.prop'", mDevice, receiver, cancellationTokenSource.Token, int.MaxValue);
+            while (task.Status == TaskStatus.Running || task.Status == TaskStatus.WaitingForActivation)
+            {
+                Thread.Sleep(3000);
+                cancellationTokenSource.Cancel();
+            }
 
+            //Tap Allow
+            sendCommand("input tap 486 858");
+        }
+
+        private void installKingRootApp()
+        {
+            Console.WriteLine("ACCEPT PERMISSIONS");
+            var cancellationTokenSource = new CancellationTokenSource();
+            var receiver = new ConsoleOutputReceiver();
+
+            //Send Install command
+            var task = AdbClient.Instance.ExecuteRemoteCommandAsync("pm install -rg /data/local/tmp/KingRoot.apk", mDevice, receiver, cancellationTokenSource.Token, int.MaxValue);
+            while (task.Status == TaskStatus.Running || task.Status == TaskStatus.WaitingForActivation)
+            {
+                //Wait For Google Package Verify
+                if (sendCommandWithResponse("dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'").Contains("com.android.vending/com.google.android.vending.verifier.ConsentDialog"))
+                {
+                    //Close "Allow Google..." Window. tapping Cancel
+                    sendCommand("input tap 406 818");
+                }
+            }
+        }
 
         private void waitForReadyToRoot()
         {
@@ -277,6 +381,7 @@ private void flashboot()
                     service.Push(stream, "/data/local/tmp/" + filename, 0444, dt, null, CancellationToken.None);
                 }
             }catch (Exception s) { Console.WriteLine("Error Pushing File : " + s); }
+            Thread.Sleep(500);
         }
 
         private void InstallApplication()
@@ -338,6 +443,8 @@ private void flashboot()
 
             while (!mform.connected){}
             Console.WriteLine("Device FOUND!");
+
+            Thread.Sleep(500);
         }
 
     }
