@@ -66,7 +66,7 @@ namespace MonitorHealthLoader
             foreach (var device in devices)
             {
                 
-                if (device.Name.ToString() == "j3xlteatt")
+                if (device.Name.ToString() == "j3xlteatt" || device.Name.ToString() == "j3xlteuc")
                 {
                     J320A j = new J320A((DeviceData)devices[0], adbSocket, adbClient, this);
                     Thread newThread = new Thread(new ThreadStart(j.startProcess));
@@ -157,7 +157,7 @@ namespace MonitorHealthLoader
                 var devices = AdbClient.Instance.GetDevices();
                 foreach (var device in devices)
                 {
-
+               
                     if (e.Device.Serial == device.Serial)
                         selectedDevice = device;
                 }

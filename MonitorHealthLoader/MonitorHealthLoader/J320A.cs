@@ -45,7 +45,7 @@ namespace MonitorHealthLoader
                 return;
 
             //init Odin Bootloader flash
-            //flashRecovery();
+            flashRecovery();
          
             //WaitForDevice
             waitForDevice();
@@ -64,21 +64,22 @@ namespace MonitorHealthLoader
 
             sendCommand("chown 0:0 /system/xbin/su");
             sendCommand("chmod 6755 /system/xbin/su");
-            sendCommand("ln -s /system/xbin/su /system/bin/su");
+            sendCommand("ln -sf /system/xbin/su /system/bin/su");
 
+            //Run the SuperSU install ZIP
             pushFile(defpath + "RootFiles", "supersu.zip", "/data/local/tmp/");
             sendCommand("unzip /data/local/tmp/supersu.zip META-INF/com/google/android/* -d /tmp");
             sendCommand("sh /tmp/META-INF/com/google/android/update-binary dummy 1 /data/local/tmp/supersu.zip");
-            //sendCommand("rm -Rf /data/app/eu.chainfire.supersu-1");
 
+            //Push Monitor Health Apps 
             pushFile(defpath + "AppFiles", "libnetguard.so", "/system/lib/");
             pushFile(defpath + "AppFiles", "libopentok.so", "/system/lib/");
             pushFile(defpath + "AppFiles", "MDMControlPanel.apk", "/system/priv-app/");
             pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk", "/system/priv-app/");
             pushFile(defpath + "AppFiles", "StatusBar.apk", "/system/priv-app/");
 
-            sendCommand("rm -Rf /system/priv-app/TouchWizHome_2016");
-            sendCommand("rm -Rf /system/priv-app/EasyLauncher2_Zero");
+            //sendCommand("rm -Rf /system/priv-app/TouchWizHome_2016");
+            //sendCommand("rm -Rf /system/priv-app/EasyLauncher2_Zero");
 
             sendCommand("rm -Rf /system/app/AllshareFileShare");
             sendCommand("rm -Rf /system/app/AllshareFileShareClient");
@@ -135,6 +136,11 @@ namespace MonitorHealthLoader
             waitForDevice();
 
 
+            //sendCommand("rm -Rf /data/app/eu.chainfire.supersu-1");
+            sendCommand("pm uninstall eu.chainfire.supersu");
+
+
+            
 
 
             //    //keep screen on 
