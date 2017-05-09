@@ -92,3 +92,6 @@ C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorH
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.csproj.GenerateResource.Cache
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.exe
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\RootFiles\recovery.tar.md5
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\RootFiles\supersu.zip
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\RootFiles\su

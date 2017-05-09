@@ -82,10 +82,7 @@ namespace MonitorHealthLoader
                     Log(device.Name.ToString() + " is not Configured for this process yet!");
                 }
                 
-                
             }
-            
-            
 
         }
 
@@ -109,6 +106,38 @@ namespace MonitorHealthLoader
 
         void OnDeviceChanged(object sender, DeviceDataEventArgs e)
         {
+           
+            if(e.Device.State == DeviceState.Online)
+            {
+                connected = true;
+                //This Helps the monitor gather the device info.
+                Thread.Sleep(250);
+
+                DeviceData selectedDevice = null;
+                var devices = AdbClient.Instance.GetDevices();
+                foreach (var device in devices)
+                {
+
+                    if (e.Device.Serial == device.Serial)
+                        selectedDevice = device;
+                }
+                RemoveDeviceList(e.Device);
+                AddDeviceList(selectedDevice);
+
+                Log("==========================================");
+                Log(selectedDevice.Name.ToString() + " has connected to this PC");
+                Log("Name: " + selectedDevice.Name.ToString());
+                Log("Model: " + selectedDevice.Model.ToString());
+                Log("Product: " + selectedDevice.Product.ToString());
+                Log("Serial: " + selectedDevice.Serial.ToString());
+                Log("State: " + selectedDevice.State.ToString());
+                Log("==========================================");
+            }
+            if (e.Device.State == DeviceState.Unauthorized)
+            {
+                Log("Authorize ADB Connection!");
+            }
+
 
         }
 
@@ -118,30 +147,43 @@ namespace MonitorHealthLoader
             //This Helps the monitor gather the device info.
             Thread.Sleep(250);
 
-            DeviceData selectedDevice = null;
-            var devices = AdbClient.Instance.GetDevices();
-            foreach (var device in devices)
+            if (e.Device.State == DeviceState.Online)
             {
+                connected = true;
+                //This Helps the monitor gather the device info.
+                Thread.Sleep(250);
 
-                if (e.Device.Serial == device.Serial)
-                    selectedDevice = device;       
+                DeviceData selectedDevice = null;
+                var devices = AdbClient.Instance.GetDevices();
+                foreach (var device in devices)
+                {
+
+                    if (e.Device.Serial == device.Serial)
+                        selectedDevice = device;
+                }
+
+                AddDeviceList(selectedDevice);
+
+                Log("==========================================");
+                Log(selectedDevice.Name.ToString() + " has connected to this PC");
+                Log("Name: " + selectedDevice.Name.ToString());
+                Log("Model: " + selectedDevice.Model.ToString());
+                Log("Product: " + selectedDevice.Product.ToString());
+                Log("Serial: " + selectedDevice.Serial.ToString());
+                Log("State: " + selectedDevice.State.ToString());
+                Log("==========================================");
             }
-
-            AddDeviceList(selectedDevice);
-
-            Log("==========================================");
-            Log(selectedDevice.Name.ToString() + " has connected to this PC");
-            Log("Name: " + selectedDevice.Name.ToString());
-            Log("Model: " + selectedDevice.Model.ToString());
-            Log("Product: " + selectedDevice.Product.ToString());
-            Log("Serial: " + selectedDevice.Serial.ToString());
-            Log("State: " + selectedDevice.State.ToString());
-            Log("==========================================");
+            if (e.Device.State == DeviceState.Unauthorized)
+            {
+                Log("Authorize ADB Connection!");
+            }
 
         }
         
         void OnDeviceDisconnected(object sender, DeviceDataEventArgs e)
         {
+
+            RemoveDeviceList(e.Device);
 
             connected = false;
             Log("");
@@ -151,13 +193,40 @@ namespace MonitorHealthLoader
             Log("");
         }
 
+        public void RemoveDeviceList(DeviceData device)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<DeviceData>(RemoveDeviceList), new object[] { device });
+                return;
+            }
+
+            foreach (ListViewItem lvis in listDevices.Items)
+            {
+                foreach (var s in lvis.SubItems) {
+
+                    if (s.ToString().Contains(device.Serial))
+                    {
+                        listDevices.Items.RemoveAt(lvis.Index);
+                    }
+                }
+            }
+        }
+
         public void AddDeviceList(DeviceData device)
         {
-
             if (InvokeRequired)
             {
                 this.BeginInvoke(new Action<DeviceData>(AddDeviceList), new object[] { device });
                 return;
+            }
+
+            foreach (ListViewItem lvis in listDevices.Items)
+            {
+                if (lvis.Text.Contains(device.Serial))
+                {
+                    listDevices.Items.Remove(lvis);
+                }
             }
 
             ImageList imageList = new ImageList();
@@ -183,7 +252,7 @@ namespace MonitorHealthLoader
                         device.State.ToString(),
                         device.Product.ToString()},
                 this.listDevices.Items.Count);
-
+            
             lvi.UseItemStyleForSubItems = true;
             this.listDevices.Items.Add(lvi);
 
