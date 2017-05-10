@@ -70,17 +70,27 @@ namespace MonitorHealthLoader
             pushFile(defpath + "RootFiles", "supersu.zip", "/data/local/tmp/");
             sendCommand("unzip /data/local/tmp/supersu.zip META-INF/com/google/android/* -d /tmp");
             sendCommand("sh /tmp/META-INF/com/google/android/update-binary dummy 1 /data/local/tmp/supersu.zip");
+            sendCommand("rm -Rf /data/SuperSU.apk");
+
+            //Make Directories for apps 
+            sendCommand("mkdir /system/priv-app/MDM");
+            sendCommand("mkdir /system/priv-app/MonitorHealth");
+            sendCommand("mkdir /system/priv-app/StatusBar");
+            sendCommand("chmod 0755 /system/priv-app/MDM");
+            sendCommand("chmod 0755 /system/priv-app/MonitorHealth");
+            sendCommand("chmod 0755 /system/priv-app/StatusBar");
 
             //Push Monitor Health Apps 
             pushFile(defpath + "AppFiles", "libnetguard.so", "/system/lib/");
             pushFile(defpath + "AppFiles", "libopentok.so", "/system/lib/");
-            pushFile(defpath + "AppFiles", "MDMControlPanel.apk", "/system/priv-app/");
-            pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk", "/system/priv-app/");
-            pushFile(defpath + "AppFiles", "StatusBar.apk", "/system/priv-app/");
+            pushFile(defpath + "AppFiles", "MDMControlPanel.apk", "/system/priv-app/MDM/");
+            pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk", "/system/priv-app/MonitorHealth/");
+            pushFile(defpath + "AppFiles", "StatusBar.apk", "/system/priv-app/StatusBar/");
 
-            //sendCommand("rm -Rf /system/priv-app/TouchWizHome_2016");
-            //sendCommand("rm -Rf /system/priv-app/EasyLauncher2_Zero");
-
+            //remove Launcher Apps  
+            sendCommand("rm -Rf /system/priv-app/TouchWizHome_2016");
+            sendCommand("rm -Rf /system/priv-app/EasyLauncher2_Zero");
+            //Removes Apps
             sendCommand("rm -Rf /system/app/AllshareFileShare");
             sendCommand("rm -Rf /system/app/AllshareFileShareClient");
             sendCommand("rm -Rf /system/app/AllshareFileShareServer");
@@ -101,7 +111,7 @@ namespace MonitorHealthLoader
             sendCommand("rm -Rf /system/app/Wispr_ATT");
             sendCommand("rm -Rf /system/app/YPMobile_vpl_ATT");
             sendCommand("rm -Rf /system/app/YouTube");
-            
+
             //remove Priv-Apps
             sendCommand("rm -Rf /system/priv-app/AmazonInstaller_ATT");
             sendCommand("rm -Rf /system/priv-app/AmazonShopping_vpl_ATT");
@@ -124,149 +134,64 @@ namespace MonitorHealthLoader
             sendCommand("rm -Rf /system/priv-app/ready2Go_64_ATT");
             sendCommand("rm -Rf /system/priv-app/SetupWizard");
 
-            //Disable LockScreen
-            sendCommand("rm /data/system/locksettings.db");
-            sendCommand("rm /data/system/locksettings.db-shm");
-            sendCommand("rm /data/system/locksettings.db-wal");
+            //Set selinux permissions for System Apps  
+            sendCommand("restorecon -R -v /system/priv-app");
 
-
+            //reboot to system
             sendCommand("reboot");
 
-            //WaitForDevice
             waitForDevice();
 
+            //Mount System R/W
+            sendCommand("su -c 'mount -o remount,rw /system'");
 
-            //sendCommand("rm -Rf /data/app/eu.chainfire.supersu-1");
-            sendCommand("pm uninstall eu.chainfire.supersu");
+            //settings config
+            sendCommand("su -c 'settings put secure lockscreen.disabled 1'");
+            sendCommand("su -c 'rm /data/system/locksettings.db'");
+            sendCommand("su -c 'rm /data/system/locksettings.db-shm'");
+            sendCommand("su -c 'rm /data/system/locksettings.db-wal'");
+            sendCommand("su -c 'settings put secure install_non_market_apps 1'");
+            sendCommand("su -c 'settings put system double_tab_launch_component a'");
+
+            //cat >> /system/etc/apns-conf.xml <<EOD 
+//              < apn carrier = "SFR-MMS"
+//                   apn = "mmssfr"
+//                   proxy = ""
+//                   port = ""
+//                   user = ""
+//                   password = ""
+//                   server = ""
+//                   mmsc = "http://mms1"
+//                   mmsproxy = "10.151.0.1"
+//                   mmsport = "8080"
+//                   mcc = "208"
+//                   mnc = "10"
+//                   type = "mms"
+//              />
 
 
-            
+            //keep screen on 
+            sendCommand("svc power stayon usb");
+         
+            //Swipe on Lock Screen
+            sendCommand("input swipe 373 1040 373 500");
 
+            //Touch Home 
+            sendCommand("input keyevent 3");
 
-            //    //keep screen on 
-            //    sendCommand("svc power stayon usb");
-            //
-            //    //Swipe on Lock Screen
-            //    sendCommand("input swipe 373 1040 373 500");
-            //
-            //    //Push Required Files
-            //    pushFile(defpath + "AppFiles", "libnetguard.so");
-            //    pushFile(defpath + "AppFiles", "libopentok.so");
-            //    pushFile(defpath + "AppFiles", "MDMControlPanel.apk");
-            //    pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk");
-            //    pushFile(defpath + "AppFiles", "StatusBar.apk");
-            //    pushFile(defpath + "RootFiles", "KingRoot.apk");
-            // 
-            //    Thread.Sleep(3000);
-            // 
-            //    //Send Home Press
-            //    sendCommand("input keyevent 3");
-            //
-            //    installKingRootApp();
-            // 
-            //    //Send Home Press
-            //    sendCommand("input keyevent 3");
-            // 
-            //    //Open KingRoot Activity
-            //    sendCommand("am start -n com.kingroot.kinguser/.activitys.SliderMainActivity");
-            // 
-            //    waitForKingroot();
-            // 
-            //    //Continue Through Kingroot App
-            //    sendCommand("input tap 372 1186");
-            //    sendCommand("input tap 372 1186");
-            //    sendCommand("input tap 372 1125");
-            // 
-            //    waitForReadyToRoot();
-            //    Thread.Sleep(1000);
-            // 
-            //    //Click Try Root
-            //    sendCommand("input tap 372 1020");
-            // 
-            //    waitForFinishedRoot();
-            //
-            //    //Send Home Press
-            //    sendCommand("input keyevent 3");
-            //
-            //    grantSUPermissions();
-            //
-            //    //Mount System
-            //    sendCommand("su -c 'mount -o remount,rw /system'");
-            //    
-            //    //Move Lib Files to system/lib required for apps to run 
-            //    sendCommand("su -c 'cat /data/local/tmp/libnetguard.so > /system/lib/libnetguard.so'");
-            //    sendCommand("su -c 'cat /data/local/tmp/libopentok.so > /system/lib/libopentok.so'");
-            //
-            //    //Change file Permissions for new libs. 
-            //    sendCommand("su -c 'chmod 0755 /system/lib/libnetguard.so'");
-            //    sendCommand("su -c 'chmod 0755 /system/lib/libopentok.so'");
-            //
-            //    //Move new apk files to system/priv-app
-            //    sendCommand("su -c 'cat /data/local/tmp/MDMControlPanel.apk > /system/priv-app/MDMControlPanel.apk'");
-            //    sendCommand("su -c 'cat /data/local/tmp/monitorhealth1.3.6.apk > /system/priv-app/monitorhealth1.3.6.apk'");
-            //    sendCommand("su -c 'cat /data/local/tmp/StatusBar.apk > /system/priv-app/StatusBar.apk'");
-            //
-            //    //Change file Permissions on all file in priv-app recursively
-            //    sendCommand("su -c 'chmod -R 755 /system/priv-app'");
-            //
-            //    //remove unused Apps
-            //    sendCommand("su -c 'rm -Rf /system/app/AllshareFileShare'");
-            //    sendCommand("su -c 'rm -Rf /system/app/AllshareFileShareClient'");
-            //    sendCommand("su -c 'rm -Rf /system/app/AllshareFileShareServer'");
-            //    sendCommand("su -c 'rm -Rf /system/app/AmazonKindle_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/Directv_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/FamilyMap_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/Hangouts'");
-            //    sendCommand("su -c 'rm -Rf /system/app/MyATT_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/Plenti_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/SBrowser_4_LATEST'");
-            //    sendCommand("su -c 'rm -Rf /system/app/SPlanner_M'");
-            //    sendCommand("su -c 'rm -Rf /system/app/SecMemo3'");
-            //    sendCommand("su -c 'rm -Rf /system/app/SmartLimits_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/SmartWifi_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/Uber_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/Weather2016'");
-            //    sendCommand("su -c 'rm -Rf /system/app/WeatherWidget2016'");
-            //    sendCommand("su -c 'rm -Rf /system/app/Wispr_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/YPMobile_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/app/YouTube'");
-            //
-            //    //remove Priv-Apps
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/AmazonInstaller_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/AmazonShopping_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/DigitalLocker_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/DriveMode_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/ECID - release_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/FamilyUtility_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/GalaxyApps_3xh'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/HancomOfficeViewer'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/Lookout_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/MILK_US'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/MobileLocate_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/RemoteSupport_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/Telenav_vpl_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/ThemeCenter'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/ThemeStore_3xh'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/Velvet'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/VoiceNote_4.0'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/WildTangent_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/ready2Go_64_ATT'");
-            //    sendCommand("su -c 'rm -Rf /system/priv-app/SetupWizard'");
-            //
-            //    //Disable Samsung Launchers
-            //    sendCommand("pm disable com.sec.android.app.easylauncher");
-            //    sendCommand("pm disable com.sec.android.app.launcher");
-            //    sendCommand("pm disable com.sec.android.app.emergencylauncher");
-            //
-            //    //Open KingRoot Settings Activity
-            //    sendCommand("am start -n com.kingroot.kinguser/.activitys.KUCommonSettingActivity");
-            //    Thread.Sleep(1000);
-            //    //Touch option to unnstall.
-            //    sendCommand("input tap 352 1257");
-            //    sendCommand("input tap 372 1125");
-            //    sendCommand("input tap 478 850");
-            //    sendCommand("input tap 156 791");
-            //    sendCommand("input tap 487 895");
+            waitForPermissions();
+
+            //Touch Allow Permissions
+            sendCommand("input tap 579 789");
+            sendCommand("input tap 579 789");
+            sendCommand("input tap 579 789");
+            sendCommand("input tap 579 789");
+
+            waitForVPN();
+
+            //Touch Allow Connection
+            sendCommand("input tap 600 938");
+
 
 
         }
@@ -289,15 +214,19 @@ namespace MonitorHealthLoader
                 return true;
         }
 
-        private void waitForKingroot()
+        private void waitForPermissions()
         {
-            Console.WriteLine("Waiting For KingRoot to Open");
+            Console.WriteLine("Waiting For App Permissions");
             string response = sendCommandWithResponse("dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
-            while (!response.Contains("com.kingroot.kinguser/com.kingroot.kinguser.activitys.SliderMainActivity"))
-            {
-                if (response.Contains("com.samsung.android.MtpApplication/com.samsung.android.MtpApplication.USBConnection")) { clearAttentionMTP(); }
-                response = sendCommandWithResponse("dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
-            }
+            while (!response.Contains("permission.ui.GrantPermissionsActivity")) { }
+            Thread.Sleep(500);
+        }
+
+        private void waitForVPN()
+        {
+            Console.WriteLine("Waiting For VPN Permissions");
+            string response = sendCommandWithResponse("dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
+            while (!response.Contains("com.android.vpndialogs/.ConfirmDialog")) { }
             Thread.Sleep(500);
         }
 

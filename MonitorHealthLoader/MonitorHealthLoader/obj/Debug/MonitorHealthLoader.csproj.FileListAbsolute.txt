@@ -95,3 +95,6 @@ C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorH
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\RootFiles\recovery.tar.md5
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\RootFiles\supersu.zip
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\RootFiles\su
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\j320a.png
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\monitor-health-logo.png
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\nodevice.png

@@ -32,6 +32,9 @@ namespace MonitorHealthLoader
         {
             InitializeComponent();
 
+            //Set Nodevice Image
+            this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\nodevice.png");
+
             //Kill Any ADB Servers Running.
             foreach (var process in Process.GetProcessesByName("adb.exe"))
             {
@@ -96,7 +99,8 @@ namespace MonitorHealthLoader
 
         void StartMonitor()
         {
-             Log("Starting Monitor");
+             Log("Device Monitor Started.");
+            Log("explain connections steps");
              monitor = new DeviceMonitor(adbSocket);
              monitor.DeviceConnected += this.OnDeviceConnected;
              monitor.DeviceDisconnected += this.OnDeviceDisconnected;
@@ -123,6 +127,8 @@ namespace MonitorHealthLoader
                 }
                 RemoveDeviceList(e.Device);
                 AddDeviceList(selectedDevice);
+
+                this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\j320a.png");
 
                 Log("==========================================");
                 Log(selectedDevice.Name.ToString() + " has connected to this PC");
@@ -164,6 +170,8 @@ namespace MonitorHealthLoader
 
                 AddDeviceList(selectedDevice);
 
+                this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\j320a.png");
+
                 Log("==========================================");
                 Log(selectedDevice.Name.ToString() + " has connected to this PC");
                 Log("Name: " + selectedDevice.Name.ToString());
@@ -185,6 +193,9 @@ namespace MonitorHealthLoader
 
             RemoveDeviceList(e.Device);
 
+            //Set Nodevice Image
+            this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\nodevice.png");
+
             connected = false;
             Log("");
             Log("----------------------------------------------------");
@@ -200,6 +211,8 @@ namespace MonitorHealthLoader
                 this.BeginInvoke(new Action<DeviceData>(RemoveDeviceList), new object[] { device });
                 return;
             }
+
+            this.btnStart.Enabled = false;
 
             foreach (ListViewItem lvis in listDevices.Items)
             {
@@ -220,6 +233,8 @@ namespace MonitorHealthLoader
                 this.BeginInvoke(new Action<DeviceData>(AddDeviceList), new object[] { device });
                 return;
             }
+
+            this.btnStart.Enabled = true;
 
             foreach (ListViewItem lvis in listDevices.Items)
             {
@@ -301,6 +316,13 @@ namespace MonitorHealthLoader
 
 
 
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            StopMonitor();
+            adbClient.KillAdb();
+            this.Close();
         }
     }
 }
