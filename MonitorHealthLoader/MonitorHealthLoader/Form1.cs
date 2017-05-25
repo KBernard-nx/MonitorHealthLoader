@@ -37,6 +37,8 @@ namespace MonitorHealthLoader
         {
             InitializeComponent();
 
+            lblVersion.Text = Application.ProductVersion.ToString();
+
             //make dialog for authorize adb connection
             authorizeDialog = new Form();
             authorizeDialog.Height = 550;

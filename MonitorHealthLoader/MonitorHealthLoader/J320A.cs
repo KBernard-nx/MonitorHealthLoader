@@ -186,6 +186,11 @@ namespace MonitorHealthLoader
             sendCommand("su -c 'rm /data/system/locksettings.db-wal'");
             sendCommand("su -c 'settings put secure install_non_market_apps 1'");
             sendCommand("su -c 'settings put system double_tab_launch_component a'");
+            //Disable Location Services. 
+            sendCommand("su -c 'settings put secure location_providers_allowed -gps'");
+            sendCommand("su -c 'settings put secure location_providers_allowed -network'");
+            //Disable Camera Double Home press
+            sendCommand("su -c 'settings put system double_tab_launch_component \' \''");           
 
             //keep screen on 
             sendCommand("svc power stayon usb");
