@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorHealthLoader", "MonitorHealthLoader\MonitorHealthLoader.csproj", "{3F11D75F-C1EA-4689-80E7-0618717830CC}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -12,24 +12,45 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAdbClient", "SharpAdbC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAdbClient.Extensions", "SharpAdbClient.Extensions\SharpAdbClient.Extensions.csproj", "{58030054-1E04-433E-BEB4-4D8143C64C09}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MonitorHealthInstaller", "Setup1\Setup1.vdproj", "{14DC30DE-7EBC-496E-9730-4643145C93C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Any CPU = All|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		DefaultBuild|Any CPU = DefaultBuild|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F11D75F-C1EA-4689-80E7-0618717830CC}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{3F11D75F-C1EA-4689-80E7-0618717830CC}.All|Any CPU.Build.0 = Release|Any CPU
 		{3F11D75F-C1EA-4689-80E7-0618717830CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F11D75F-C1EA-4689-80E7-0618717830CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F11D75F-C1EA-4689-80E7-0618717830CC}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F11D75F-C1EA-4689-80E7-0618717830CC}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{3F11D75F-C1EA-4689-80E7-0618717830CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F11D75F-C1EA-4689-80E7-0618717830CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{231C576C-150A-45D4-B12A-901811756E9A}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{231C576C-150A-45D4-B12A-901811756E9A}.All|Any CPU.Build.0 = Release|Any CPU
 		{231C576C-150A-45D4-B12A-901811756E9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{231C576C-150A-45D4-B12A-901811756E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{231C576C-150A-45D4-B12A-901811756E9A}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{231C576C-150A-45D4-B12A-901811756E9A}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{231C576C-150A-45D4-B12A-901811756E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{231C576C-150A-45D4-B12A-901811756E9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58030054-1E04-433E-BEB4-4D8143C64C09}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{58030054-1E04-433E-BEB4-4D8143C64C09}.All|Any CPU.Build.0 = Release|Any CPU
 		{58030054-1E04-433E-BEB4-4D8143C64C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{58030054-1E04-433E-BEB4-4D8143C64C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58030054-1E04-433E-BEB4-4D8143C64C09}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{58030054-1E04-433E-BEB4-4D8143C64C09}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{58030054-1E04-433E-BEB4-4D8143C64C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58030054-1E04-433E-BEB4-4D8143C64C09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14DC30DE-7EBC-496E-9730-4643145C93C8}.All|Any CPU.ActiveCfg = Release
+		{14DC30DE-7EBC-496E-9730-4643145C93C8}.Debug|Any CPU.ActiveCfg = Debug
+		{14DC30DE-7EBC-496E-9730-4643145C93C8}.DefaultBuild|Any CPU.ActiveCfg = Debug
+		{14DC30DE-7EBC-496E-9730-4643145C93C8}.Release|Any CPU.ActiveCfg = Release
+		{14DC30DE-7EBC-496E-9730-4643145C93C8}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

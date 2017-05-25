@@ -25,12 +25,27 @@ namespace MonitorHealthLoader
         AdbSocket adbSocket;
         AdbClient adbClient;
         DeviceMonitor monitor;
+        Form authorizeDialog;
+        int newProgressValue = 0;
+        J320A j;
+        Thread programThread;
+        bool deviceProgramming = false;
 
         public bool connected = false;
 
         public Form1()
         {
             InitializeComponent();
+
+            //make dialog for authorize adb connection
+            authorizeDialog = new Form();
+            authorizeDialog.Height = 550;
+            authorizeDialog.Width = 300;
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.Dock = DockStyle.Fill;
+            pictureBox.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\authorize.png");
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            authorizeDialog.Controls.Add(pictureBox);
 
             //Set Nodevice Image
             this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\nodevice.png");
@@ -71,9 +86,10 @@ namespace MonitorHealthLoader
                 
                 if (device.Name.ToString() == "j3xlteatt" || device.Name.ToString() == "j3xlteuc")
                 {
-                    J320A j = new J320A((DeviceData)devices[0], adbSocket, adbClient, this);
-                    Thread newThread = new Thread(new ThreadStart(j.startProcess));
-                    newThread.Start();
+                    deviceProgramming = true;
+                    j = new J320A((DeviceData)devices[0], adbSocket, adbClient, this, this.progressBar1);
+                    programThread = new Thread(new ThreadStart(j.startProcess));
+                    programThread.Start();
                     
                 }
                 else if (device.Name.ToString() == "j5lte")
@@ -100,7 +116,7 @@ namespace MonitorHealthLoader
         void StartMonitor()
         {
              Log("Device Monitor Started.");
-            Log("explain connections steps");
+             Log("Make sure that USB Debugging is Enabled!");
              monitor = new DeviceMonitor(adbSocket);
              monitor.DeviceConnected += this.OnDeviceConnected;
              monitor.DeviceDisconnected += this.OnDeviceDisconnected;
@@ -110,10 +126,11 @@ namespace MonitorHealthLoader
 
         void OnDeviceChanged(object sender, DeviceDataEventArgs e)
         {
-           
-            if(e.Device.State == DeviceState.Online)
+            connected = true;
+            if (deviceProgramming) { return; }
+
+            if (e.Device.State == DeviceState.Online)
             {
-                connected = true;
                 //This Helps the monitor gather the device info.
                 Thread.Sleep(250);
 
@@ -138,10 +155,13 @@ namespace MonitorHealthLoader
                 Log("Serial: " + selectedDevice.Serial.ToString());
                 Log("State: " + selectedDevice.State.ToString());
                 Log("==========================================");
+
             }
-            if (e.Device.State == DeviceState.Unauthorized)
+            if (e.Device.State == DeviceState.Unauthorized || e.Device.State == DeviceState.Offline)
             {
                 Log("Authorize ADB Connection!");
+
+                this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\authorize.png");
             }
 
 
@@ -150,12 +170,12 @@ namespace MonitorHealthLoader
         void OnDeviceConnected(object sender, DeviceDataEventArgs e)
         {
             connected = true;
+            if (deviceProgramming) { return; }
             //This Helps the monitor gather the device info.
             Thread.Sleep(250);
 
             if (e.Device.State == DeviceState.Online)
             {
-                connected = true;
                 //This Helps the monitor gather the device info.
                 Thread.Sleep(250);
 
@@ -180,23 +200,28 @@ namespace MonitorHealthLoader
                 Log("Serial: " + selectedDevice.Serial.ToString());
                 Log("State: " + selectedDevice.State.ToString());
                 Log("==========================================");
+
             }
-            if (e.Device.State == DeviceState.Unauthorized)
+            if (e.Device.State == DeviceState.Unauthorized || e.Device.State == DeviceState.Offline)
             {
                 Log("Authorize ADB Connection!");
+                this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\authorize.png");
             }
+
 
         }
         
         void OnDeviceDisconnected(object sender, DeviceDataEventArgs e)
         {
+            connected = false;
+
+            if (deviceProgramming) { return; }
 
             RemoveDeviceList(e.Device);
 
             //Set Nodevice Image
             this.pictureBox1.Image = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + "Images\\nodevice.png");
 
-            connected = false;
             Log("");
             Log("----------------------------------------------------");
             Log( e.Device.Serial + " has Disconnected from this PC");
@@ -271,21 +296,45 @@ namespace MonitorHealthLoader
             lvi.UseItemStyleForSubItems = true;
             this.listDevices.Items.Add(lvi);
 
-
         }
 
-        public void Progress()
+        public void updateProgress()
         {
-      //      int previousProgress = progressBar.Value;
-      //      progressBar.Value = ...
-      //
-      //      if (progressBar.Value != previousProgress)
-      //      {
-      //          progressBar.DrawToBitmap(progressBarBitmap, bounds);
-      //          progressBarImageList.Images[index] = progressBarBitmap;
-      //      }
+            if (newProgressValue >= 100)
+            {
+                newProgressValue = 0;
+            }
+            newProgressValue = newProgressValue + 1;
+
+            MethodInvoker mi = new MethodInvoker(() => this.progressBar1.Value = newProgressValue);
+            if (this.progressBar1.InvokeRequired)
+            {
+                this.progressBar1.Invoke(mi);
+            }
+            else
+            {
+                mi.Invoke();
+            }
         }
 
+        public void progressComplete()
+        {
+            deviceProgramming = false;
+
+            MethodInvoker mi = new MethodInvoker(() => this.progressBar1.Value = 0);
+            if (this.progressBar1.InvokeRequired)
+            {
+                this.progressBar1.Invoke(mi);
+            }
+            else
+            {
+                mi.Invoke();
+            }
+
+            MessageBox.Show("Programming Complete!","Device Status");
+        }
+
+        
 
         public void Log(String log)
         {
@@ -295,7 +344,7 @@ namespace MonitorHealthLoader
                 return;
             }
 
-            textBox1.AppendText(Environment.NewLine + log); 
+            textBox1.AppendText(Environment.NewLine + log + Environment.NewLine); 
 
         }
 
@@ -303,26 +352,14 @@ namespace MonitorHealthLoader
         {
             StopMonitor();
             adbClient.KillAdb();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-
-
+            Environment.Exit(0);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            StopMonitor();
             adbClient.KillAdb();
             this.Close();
+            Environment.Exit(0);
         }
     }
 }

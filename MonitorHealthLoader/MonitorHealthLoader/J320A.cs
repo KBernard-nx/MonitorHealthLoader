@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TestStack.White.UIItems.WindowItems;
 
 
@@ -23,56 +24,74 @@ namespace MonitorHealthLoader
         private static AdbClient mAdbClient;
         private DateTime dt = new DateTime();
         Form1 mform;
+        ProgressBar mProgressBar;
 
         private String defpath = AppDomain.CurrentDomain.BaseDirectory;
 
         const String FIRMWARE_VERSION = "J320AUEU1APE9", BOOTLOADER_VERSION = "J320AUEU1APE9", ID_VERSION = "MMB29K.J320AUEU1APE9";
+        const String FIRMWARE_VERSION_1 = "J320AUES2APJ2", BOOTLOADER_VERSION_1 = "J320AUES2APJ2", ID_VERSION_1 = "MMB29K.J320AUES2APJ2";
 
-        public J320A(DeviceData device, AdbSocket adbSocket, AdbClient adbClient, Form1 form)
+        public J320A(DeviceData device, AdbSocket adbSocket, AdbClient adbClient, Form1 form, ProgressBar progressBar)
         {
 
             mDevice = device;
             mAdbSocket = adbSocket;
             mAdbClient = adbClient;
             mform = form;
-
+            mProgressBar = progressBar;
+            
          }
 
         public void startProcess()
         {
+            updateProgress();
 
             if (!checkDeviceInfo())
+            {
+                mform.Log("ERROR: Update Device Firmware to J320AUEU1APE9!");
                 return;
+            }
+                
 
+            mform.Log("Restarting device into Downlaod Mode");
             //init Odin Bootloader flash
             flashRecovery();
-         
+            updateProgress();
+
             //WaitForDevice
+            mform.Log("Waiting For Device...");
             waitForDevice();
 
             //Reboot Recovery
+            mform.Log("Rebooting into Recovery Mode");
             sendCommand("reboot recovery");
-            
+
             //WaitForDevice
+            mform.Log("Waiting For Device...");
             waitForDevice();
 
             //Mount System
+            mform.Log("Mounting /system as RW");
             sendCommand("mount -t ext4 /dev/block/mmcblk0p19 /system");
 
             //Install SU
+            mform.Log("Installing SU Binary.");
             pushFile(defpath + "RootFiles", "su", "/system/xbin/");
+            updateProgress();
 
             sendCommand("chown 0:0 /system/xbin/su");
             sendCommand("chmod 6755 /system/xbin/su");
             sendCommand("ln -sf /system/xbin/su /system/bin/su");
 
             //Run the SuperSU install ZIP
+            mform.Log("Settings up SU Binary.");
             pushFile(defpath + "RootFiles", "supersu.zip", "/data/local/tmp/");
             sendCommand("unzip /data/local/tmp/supersu.zip META-INF/com/google/android/* -d /tmp");
             sendCommand("sh /tmp/META-INF/com/google/android/update-binary dummy 1 /data/local/tmp/supersu.zip");
             sendCommand("rm -Rf /data/SuperSU.apk");
 
             //Make Directories for apps 
+            mform.Log("Preparing device for Monitor Health Apps.");
             sendCommand("mkdir /system/priv-app/MDM");
             sendCommand("mkdir /system/priv-app/MonitorHealth");
             sendCommand("mkdir /system/priv-app/StatusBar");
@@ -80,16 +99,25 @@ namespace MonitorHealthLoader
             sendCommand("chmod 0755 /system/priv-app/MonitorHealth");
             sendCommand("chmod 0755 /system/priv-app/StatusBar");
 
+
             //Push Monitor Health Apps 
+            mform.Log("Pushing Monitor Health Apps");
             pushFile(defpath + "AppFiles", "libnetguard.so", "/system/lib/");
+            updateProgress();
             pushFile(defpath + "AppFiles", "libopentok.so", "/system/lib/");
+            updateProgress();
             pushFile(defpath + "AppFiles", "MDMControlPanel.apk", "/system/priv-app/MDM/");
+            updateProgress();
             pushFile(defpath + "AppFiles", "monitorhealth1.3.6.apk", "/system/priv-app/MonitorHealth/");
+            updateProgress();
             pushFile(defpath + "AppFiles", "StatusBar.apk", "/system/priv-app/StatusBar/");
+            updateProgress();
 
             //remove Launcher Apps  
+            mform.Log("Removing Unwanted Apps.");
             sendCommand("rm -Rf /system/priv-app/TouchWizHome_2016");
             sendCommand("rm -Rf /system/priv-app/EasyLauncher2_Zero");
+
             //Removes Apps
             sendCommand("rm -Rf /system/app/AllshareFileShare");
             sendCommand("rm -Rf /system/app/AllshareFileShareClient");
@@ -134,18 +162,24 @@ namespace MonitorHealthLoader
             sendCommand("rm -Rf /system/priv-app/ready2Go_64_ATT");
             sendCommand("rm -Rf /system/priv-app/SetupWizard");
 
+            sendCommand("rm /system/etc/security/otacerts.zip");
+
             //Set selinux permissions for System Apps  
+            mform.Log("Restoring SELinux Permissions");
             sendCommand("restorecon -R -v /system/priv-app");
 
             //reboot to system
+            mform.Log("Rebooting Device...");
             sendCommand("reboot");
 
+            mform.Log("Waiting For Device...");
             waitForDevice();
 
             //Mount System R/W
             sendCommand("su -c 'mount -o remount,rw /system'");
 
             //settings config
+            mform.Log("Configure Settings.");
             sendCommand("su -c 'settings put secure lockscreen.disabled 1'");
             sendCommand("su -c 'rm /data/system/locksettings.db'");
             sendCommand("su -c 'rm /data/system/locksettings.db-shm'");
@@ -153,46 +187,38 @@ namespace MonitorHealthLoader
             sendCommand("su -c 'settings put secure install_non_market_apps 1'");
             sendCommand("su -c 'settings put system double_tab_launch_component a'");
 
-            //cat >> /system/etc/apns-conf.xml <<EOD 
-//              < apn carrier = "SFR-MMS"
-//                   apn = "mmssfr"
-//                   proxy = ""
-//                   port = ""
-//                   user = ""
-//                   password = ""
-//                   server = ""
-//                   mmsc = "http://mms1"
-//                   mmsproxy = "10.151.0.1"
-//                   mmsport = "8080"
-//                   mcc = "208"
-//                   mnc = "10"
-//                   type = "mms"
-//              />
-
-
             //keep screen on 
             sendCommand("svc power stayon usb");
-         
+
             //Swipe on Lock Screen
+            mform.Log("Opening Lock Screen");
+            Thread.Sleep(500);
             sendCommand("input swipe 373 1040 373 500");
 
             //Touch Home 
+            Thread.Sleep(500);
             sendCommand("input keyevent 3");
 
+            mform.Log("Waiting for Permissions Dialog...");
             waitForPermissions();
 
             //Touch Allow Permissions
+            mform.Log("Allowing Permissions");
             sendCommand("input tap 579 789");
             sendCommand("input tap 579 789");
             sendCommand("input tap 579 789");
             sendCommand("input tap 579 789");
 
+            mform.Log("Waiting for VPN Dialog...");
             waitForVPN();
 
             //Touch Allow Connection
+            mform.Log("Allowing VPN Access.");
             sendCommand("input tap 600 938");
 
+            completeProgress();
 
+            mform.Log("Device Programming Complete!");
 
         }
 
@@ -208,10 +234,11 @@ namespace MonitorHealthLoader
             mform.Log("Bootloader: " + bootVersion);
             mform.Log("ID: " + idVersion);
 
-            if (fmtString(firmVersion) != FIRMWARE_VERSION || fmtString(bootVersion) != BOOTLOADER_VERSION || fmtString(idVersion) != ID_VERSION)
-                return false;
-            else
+            if (fmtString(firmVersion) == FIRMWARE_VERSION && fmtString(bootVersion) == BOOTLOADER_VERSION && fmtString(idVersion) == ID_VERSION
+                    || fmtString(firmVersion) == FIRMWARE_VERSION_1 && fmtString(bootVersion) == BOOTLOADER_VERSION_1 && fmtString(idVersion) == ID_VERSION_1)
                 return true;
+            else
+                return false;
         }
 
         private void waitForPermissions()
@@ -445,6 +472,7 @@ namespace MonitorHealthLoader
             Console.WriteLine("The device responded:");
             Console.WriteLine(receiver.ToString());
             //mform.Log(receiver.ToString());
+            updateProgress();
             Thread.Sleep(550);
         }
 
@@ -460,6 +488,7 @@ namespace MonitorHealthLoader
             Console.WriteLine(receiver.ToString());
             //mform.Log(receiver.ToString());
             Thread.Sleep(350);
+            updateProgress();
             return receiver.ToString();
         }
 
@@ -480,14 +509,22 @@ namespace MonitorHealthLoader
 
         private void waitForDevice()
         {
-            bool clearedForTakeOff = false;
-
             Console.WriteLine("Waiting for device...");
 
             while (!mform.connected){}
             Console.WriteLine("Device FOUND!");
 
             Thread.Sleep(500);
+        }
+
+        private void updateProgress()
+        {
+            mform.updateProgress();
+        }
+
+        private void completeProgress()
+        {
+            mform.progressComplete();
         }
 
     }

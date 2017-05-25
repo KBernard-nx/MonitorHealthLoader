@@ -1,0 +1,7 @@
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Release\SharpAdbClient.Extensions.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Release\SharpAdbClient.Extensions.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Release\SharpAdbClient.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\bin\Release\SharpAdbClient.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Release\SharpAdbClient.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Release\SharpAdbClient.Extensions.dll
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient.Extensions\obj\Release\SharpAdbClient.Extensions.pdb

@@ -458,7 +458,6 @@ namespace MonitorHealthLoader
 
         private void waitForDevice()
         {
-            bool clearedForTakeOff = false;
 
             Console.WriteLine("Waiting for device...");
 

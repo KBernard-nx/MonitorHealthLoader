@@ -98,3 +98,6 @@ C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorH
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\j320a.png
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\monitor-health-logo.png
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\nodevice.png
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\bin\Debug\Images\authorize.png
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.TrustInfo.xml
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\MonitorHealthLoader\obj\Debug\MonitorHealthLoader.exe.manifest
