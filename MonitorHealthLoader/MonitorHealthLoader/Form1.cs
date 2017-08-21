@@ -27,7 +27,8 @@ namespace MonitorHealthLoader
         DeviceMonitor monitor;
         Form authorizeDialog;
         int newProgressValue = 0;
-        J320A j;
+        J320A j320a;
+        J327U j327u;
         Thread programThread;
         bool deviceProgramming = false;
 
@@ -89,10 +90,18 @@ namespace MonitorHealthLoader
                 if (device.Name.ToString() == "j3xlteatt" || device.Name.ToString() == "j3xlteuc")
                 {
                     deviceProgramming = true;
-                    j = new J320A((DeviceData)devices[0], adbSocket, adbClient, this, this.progressBar1);
-                    programThread = new Thread(new ThreadStart(j.startProcess));
+                    j320a = new J320A((DeviceData)devices[0], adbSocket, adbClient, this, this.progressBar1);
+                    programThread = new Thread(new ThreadStart(j320a.startProcess));
                     programThread.Start();
                     
+                }
+                if (device.Name.ToString() == "j3popelteue")
+                {
+                    deviceProgramming = true;
+                    j327u = new J327U((DeviceData)devices[0], adbSocket, adbClient, this, this.progressBar1);
+                    programThread = new Thread(new ThreadStart(j327u.startProcess));
+                    programThread.Start();
+
                 }
                 else if (device.Name.ToString() == "j5lte")
                 {

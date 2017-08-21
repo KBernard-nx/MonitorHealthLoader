@@ -3,3 +3,4 @@ C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdb
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Release\net451\SharpAdbClient.AssemblyInfo.cs
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Release\net451\SharpAdbClient.dll
 C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Release\net451\SharpAdbClient.pdb
+C:\Users\Kevin\Documents\GitHub\MonitorHealthLoader\MonitorHealthLoader\SharpAdbClient\obj\Release\net451\SharpAdbClient.csprojResolveAssemblyReference.cache
