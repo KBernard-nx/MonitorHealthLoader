@@ -121,7 +121,7 @@ namespace MonitorHealthLoader
             //Push Monitor Health Apps 
             mform.Log("Pushing Monitor Health Apps");
             pushFile(defpath + "AppFiles", "libnetguard.so", "/data/local/tmp/");
-            sendCommand("su -c 'cat /data/local/tmp/libnetgaurd.so > /system/lib/libnetguard.so'");
+            sendCommand("su -c 'cat /data/local/tmp/libnetguard.so > /system/lib/libnetguard.so'");
             sendCommand("su -c 'chmod 0755 /system/lib/libnetguard.so'");
             sendCommand("su -c 'chown root.root /system/lib/libnetguard.so'");
             updateProgress();
